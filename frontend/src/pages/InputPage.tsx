@@ -6,15 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { analyzeNote, uploadAndAnalyze } from "@/services/api";
-import { analyzeWithGuideline } from "@/services/api";
+import { analyzeNote } from "@/services/api";
 
 const InputPage = () => {
   const navigate = useNavigate();
 
   const [notes, setNotes] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);   // ✅ 新增真实 file
+  const [file, setFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +23,7 @@ const InputPage = () => {
     const fileObj = e.dataTransfer.files[0];
     if (fileObj && fileObj.type === "application/pdf") {
       setFileName(fileObj.name);
-      setFile(fileObj);   // ✅ 保存真实 file
+      setFile(fileObj);
     }
   }, []);
 
@@ -32,7 +31,7 @@ const InputPage = () => {
     const fileObj = e.target.files?.[0];
     if (fileObj && fileObj.type === "application/pdf") {
       setFileName(fileObj.name);
-      setFile(fileObj);   
+      setFile(fileObj);
     }
   };
 
@@ -40,19 +39,13 @@ const InputPage = () => {
     try {
       setLoading(true);
 
-      // ✅ 1. Doctor Note 必填
       if (!notes.trim()) {
         alert("Please enter Doctor Raw Notes.");
         return;
       }
 
-      // ✅ 2. Guideline PDF 必填
-      if (!file) {
-        alert("Please upload MCG Guideline PDF.");
-        return;
-      }
-
-      const result = await analyzeWithGuideline(notes, file);
+      // 🔥 现在直接调用 LLM analyze 接口
+      const result = await analyzeNote(notes);
 
       navigate("/output", { state: result });
 
@@ -64,30 +57,28 @@ const InputPage = () => {
     }
   };
 
-
-
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
+
       <main className="flex-1 px-8 py-8">
         <div className="mx-auto max-w-6xl">
-          
+
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-2xl font-semibold text-foreground">
               Clinical Documentation Optimization
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Align physician documentation with MCG admission criteria.
+              AI-powered documentation enhancement.
             </p>
           </div>
 
-          {/* Two-column layout */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
-            {/* Left Card - Doctor Notes */}
+            {/* Left - Doctor Notes */}
             <div className="rounded-lg border border-border bg-card p-6 shadow-card">
-              <h2 className="mb-4 text-sm font-semibold text-foreground uppercase tracking-wide">
+              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide">
                 Doctor Raw Notes
               </h2>
 
@@ -104,14 +95,14 @@ const InputPage = () => {
               </div>
             </div>
 
-            {/* Right Card - PDF Upload */}
+            {/* Right - PDF Upload (Optional UI only) */}
             <div className="rounded-lg border border-border bg-card p-6 shadow-card">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide">
-                  MCG Guideline PDF
+                <h2 className="text-sm font-semibold uppercase tracking-wide">
+                  MCG Guideline PDF (Optional)
                 </h2>
                 <Badge variant={fileName ? "default" : "secondary"} className="text-xs">
-                  {fileName ? "Uploaded" : "Ready"}
+                  {fileName ? "Uploaded" : "Optional"}
                 </Badge>
               </div>
 
@@ -132,11 +123,9 @@ const InputPage = () => {
                   <div className="flex flex-col items-center gap-3 text-center">
                     <FileText className="h-10 w-10 text-primary" />
                     <div>
-                      <p className="text-sm font-medium text-foreground">
-                        {fileName}
-                      </p>
+                      <p className="text-sm font-medium">{fileName}</p>
                       <p className="text-xs text-muted-foreground">
-                        PDF uploaded successfully
+                        PDF uploaded
                       </p>
                     </div>
 
@@ -154,11 +143,11 @@ const InputPage = () => {
                   <label className="flex cursor-pointer flex-col items-center gap-3 text-center">
                     <Upload className="h-10 w-10 text-muted-foreground" />
                     <div>
-                      <p className="text-sm font-medium text-foreground">
+                      <p className="text-sm font-medium">
                         Drop PDF here or click to upload
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        MCG guideline document (.pdf)
+                        Optional
                       </p>
                     </div>
 
@@ -188,6 +177,7 @@ const InputPage = () => {
 
         </div>
       </main>
+
       <Footer />
     </div>
   );

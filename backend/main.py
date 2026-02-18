@@ -1,3 +1,4 @@
+from llm_client import rewrite_note_with_llm
 from fastapi import FastAPI, UploadFile, File, Form
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -272,7 +273,14 @@ def analyze(data: AnalyzeRequest):
     results = evaluate_rules(features, default_rules)
 
     # produce revised note: append justifications to original note
-    revised_note = note + "\n\n" + "\n".join(results["justifications"]) if results["justifications"] else note
+    try:
+        analysis_summary = "\n".join(results["justifications"])
+        revised_note = rewrite_note_with_llm(note, analysis_summary)
+
+    except Exception as e:
+        revised_note = note + "\n\n" + "\n".join(results["justifications"])
+        revised_note += f"\n\n[LLM rewrite failed: {str(e)}]"
+
 
     return {
         "revisedNote": revised_note,
