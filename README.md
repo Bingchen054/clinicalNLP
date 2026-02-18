@@ -72,7 +72,7 @@ clinicalNLP/
 
 ## 🧪 Representative Test Cases
 
-### Case 1 — ER notes 31139309 A
+### Case 1 — ER notes 31139309 
 
 Key characteristics:
 
