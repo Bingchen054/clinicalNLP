@@ -46,28 +46,71 @@ Designed with:
 ## 📂 Project Structure
 
 ```
-clinicalNLP/
-│
-├── backend/
-│   ├── main.py
-│   ├── routes/
-│   ├── services/
-│   │   ├── pdf_parser.py
-│   │   ├── section_splitter.py
-│   │   ├── entity_extractor.py
-│   │   ├── severity_engine.py
-│   │   ├── llm_reasoner.py
-│   │   └── compliance_checker.py
-│
-├── frontend/
-│   └── testData/
-│
-├── prompts/
-├── tests/
-├── requirements.txt
-└── docker-compose.yml
-```
+├── backend
+│   ├── __pycache__
+│   │   ├── llm_client.cpython-311.pyc
+│   │   └── main.cpython-311.pyc
+│   ├── llm_client.py
+│   └── main.py
+├── backend.zip
+├── clinicalNLP_System_Design_and_Lovable_Prompt.
+pdf                                              ├── frontend
+│   ├── components.json
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── public
+│   │   ├── placeholder.svg
+│   │   └── robots.txt
+│   ├── src
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── components
+│   │   │   ├── Footer.tsx
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── NavLink.tsx
+│   │   │   └── ui
+│   │   ├── hooks
+│   │   │   ├── use-mobile.tsx
+│   │   │   └── use-toast.ts
+│   │   ├── index.css
+│   │   ├── lib
+│   │   │   └── utils.ts
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   │   ├── Index.tsx
+│   │   │   ├── InputPage.tsx
+│   │   │   ├── LoginPage.tsx
+│   │   │   ├── NotFound.tsx
+│   │   │   └── OutputPage.tsx
+│   │   ├── services
+│   │   │   └── api.ts
+│   │   └── test
+│   │       ├── example.test.ts
+│   │       └── setup.ts
+│   ├── tailwind.config.ts
+│   ├── testData
+│   │   ├── ER notes 31137171 B .pdf
+│   │   ├── ER notes 31139309 A.pdf
+│   │   ├── Inpatient H&P 31137171 B.pdf
+│   │   ├── Inpatient H&P 31139309 A.pdf
+│   │   ├── MCG Pneumonia.pdf
+│   │   └── revised hpi 31139309.docx.pdf
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── vite-env.d.ts
+│   ├── vite.config.ts
+│   └── vitest.config.ts
+├── frontend.zip
+├── package-lock.json
+├── package.json
+└── README.md
 
+14 directories, 49 files
+```
 ---
 
 ## 🧪 Representative Test Cases
@@ -90,7 +133,7 @@ System behavior:
 
 ---
 
-### Case 2 — ER notes H&P 31139309 
+### Case 2 — ER notes 31137171
 
 Key characteristics:
 
