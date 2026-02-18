@@ -121,7 +121,6 @@ System behavior:
 ![FastAPI](https://img.shields.io/badge/FastAPI-REST_API-009688?logo=fastapi&logoColor=white)
 ![Pydantic](https://img.shields.io/badge/Pydantic-Schema_Validation-005571)
 ![Pytest](https://img.shields.io/badge/Pytest-Testing-0A9EDC)
-![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker&logoColor=white)
 ![JSON](https://img.shields.io/badge/Structured-JSON-blue)
 
 ---
