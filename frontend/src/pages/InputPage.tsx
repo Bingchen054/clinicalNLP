@@ -6,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { analyzeNote } from "@/services/api";
+import { analyzeWithGuideline } from "@/services/api";
+
 
 const InputPage = () => {
   const navigate = useNavigate();
@@ -44,8 +45,12 @@ const InputPage = () => {
         return;
       }
 
-      // 🔥 现在直接调用 LLM analyze 接口
-      const result = await analyzeNote(notes);
+      if (!file) {
+        alert("Please upload MCG Guideline PDF.");
+        return;
+      }
+
+      const result = await analyzeWithGuideline(notes, file);
 
       navigate("/output", { state: result });
 
@@ -56,6 +61,7 @@ const InputPage = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -99,11 +105,9 @@ const InputPage = () => {
             <div className="rounded-lg border border-border bg-card p-6 shadow-card">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-semibold uppercase tracking-wide">
-                  MCG Guideline PDF (Optional)
+                  MCG Guideline PDF 
                 </h2>
-                <Badge variant={fileName ? "default" : "secondary"} className="text-xs">
-                  {fileName ? "Uploaded" : "Optional"}
-                </Badge>
+
               </div>
 
               <div
