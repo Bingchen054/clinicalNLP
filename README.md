@@ -72,7 +72,7 @@ clinicalNLP/
 
 ## 🧪 Representative Test Cases
 
-### Case 1 — Severe Hypoxic Pneumonia
+### Case 1 — ER notes 31139309 A
 
 Key characteristics:
 
@@ -81,18 +81,16 @@ Key characteristics:
 - Bilateral infiltrates on CXR  
 - Acute respiratory failure  
 - Elevated BUN (49), Creatinine (1.7)  
-- 31 minutes documented critical care time  
 
 System behavior:
 
 - Detects acute hypoxic respiratory failure  
 - Flags organ dysfunction risk  
 - Generates inpatient-level medical necessity reasoning  
-- Amplifies severity signals appropriately  
 
 ---
 
-### Case 2 — Right Lower Lobe Pneumonia (Moderate Severity)
+### Case 2 — ER notes H&P 31139309 
 
 Key characteristics:
 
@@ -101,14 +99,12 @@ Key characteristics:
 - Initially stable vitals  
 - Later oxygen desaturation requiring 2L nasal cannula  
 - WBC 12.4  
-- Mild metabolic abnormalities  
 
 System behavior:
 
 - Differentiates moderate vs critical instability  
 - Identifies developing hypoxia  
 - Generates structured admission rationale  
-- Avoids overstatement of organ failure  
 
 ---
 
