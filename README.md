@@ -112,8 +112,6 @@ System behavior:
 
 ### AI / NLP Layer
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
-![spaCy](https://img.shields.io/badge/spaCy-Medical_NLP-09A3D5)
-![NLTK](https://img.shields.io/badge/NLTK-Text_Processing-9C27B0)
 ![Sentence-Transformers](https://img.shields.io/badge/Sentence--Transformers-Embeddings-FF6F00)
 ![Llama](https://img.shields.io/badge/Llama-3.3_70B_Versatile-purple)
 
