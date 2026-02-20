@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function analyzeNote(note: string) {
   const response = await fetch(`${BASE_URL}/analyze`, {
@@ -16,10 +16,9 @@ export async function analyzeNote(note: string) {
   return response.json();
 }
 
-
 export async function uploadAndAnalyze(file: File) {
   const formData = new FormData();
-  formData.append("file", file);  
+  formData.append("file", file);
 
   const response = await fetch(`${BASE_URL}/upload-and-analyze`, {
     method: "POST",
@@ -41,7 +40,7 @@ export async function analyzeWithGuideline(
   formData.append("doctor_note", doctorNote);
   formData.append("guideline", guidelineFile);
 
-  const response = await fetch("http://localhost:8000/analyze-with-guideline", {
+  const response = await fetch(`${BASE_URL}/analyze-with-guideline`, {
     method: "POST",
     body: formData,
   });
