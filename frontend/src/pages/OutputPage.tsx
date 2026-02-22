@@ -38,7 +38,17 @@ const OutputPage = () => {
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
 
   const stateData = location.state as any;
-  const data = stateData?.analysis ? stateData.analysis : stateData;
+
+  const storedData = localStorage.getItem("cdos_analysis_result");
+
+  let data = null;
+
+  if (stateData) {
+    data = stateData?.analysis ? stateData.analysis : stateData;
+  } else if (storedData) {
+    const parsed = JSON.parse(storedData);
+    data = parsed?.analysis ? parsed.analysis : parsed;
+  }
 
   useEffect(() => {
     console.log("OutputPage received data:", stateData);

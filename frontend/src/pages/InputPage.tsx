@@ -52,7 +52,12 @@ const InputPage = () => {
 
       const result = await analyzeWithGuideline(notes, file);
 
-      navigate("/output", { state: result });
+        localStorage.setItem(
+          "cdos_analysis_result",
+          JSON.stringify(result)
+        );
+
+        navigate("/output", { state: result });
 
     } catch (error) {
       console.error("API error:", error);
