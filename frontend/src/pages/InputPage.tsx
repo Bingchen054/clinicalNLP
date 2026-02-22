@@ -8,11 +8,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { analyzeWithGuideline } from "@/services/api";
 
-
 const InputPage = () => {
   const navigate = useNavigate();
 
-  const [notes, setNotes] = useState("");
+  // ✅ 从 localStorage 读取草稿
+  const [notes, setNotes] = useState(() => {
+    return localStorage.getItem("cdos_draft_notes") || "";
+  });
+
   const [fileName, setFileName] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -52,12 +55,16 @@ const InputPage = () => {
 
       const result = await analyzeWithGuideline(notes, file);
 
-        localStorage.setItem(
-          "cdos_analysis_result",
-          JSON.stringify(result)
-        );
+      // ✅ 保存分析结果
+      localStorage.setItem(
+        "cdos_analysis_result",
+        JSON.stringify(result)
+      );
 
-        navigate("/output", { state: result });
+      // ✅ 分析成功后清除草稿
+      localStorage.removeItem("cdos_draft_notes");
+
+      navigate("/output", { state: result });
 
     } catch (error) {
       console.error("API error:", error);
@@ -66,7 +73,6 @@ const InputPage = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -98,7 +104,13 @@ const InputPage = () => {
                   placeholder="Paste physician documentation here..."
                   className="min-h-[320px] resize-none text-sm"
                   value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setNotes(value);
+
+                    // ✅ 每次输入自动保存
+                    localStorage.setItem("cdos_draft_notes", value);
+                  }}
                 />
                 <span className="absolute bottom-3 right-3 text-xs text-muted-foreground">
                   {notes.length} characters
@@ -106,13 +118,12 @@ const InputPage = () => {
               </div>
             </div>
 
-            {/* Right - PDF Upload (Optional UI only) */}
+            {/* Right - PDF Upload */}
             <div className="rounded-lg border border-border bg-card p-6 shadow-card">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-semibold uppercase tracking-wide">
-                  MCG Guideline PDF 
+                  MCG Guideline PDF
                 </h2>
-
               </div>
 
               <div
