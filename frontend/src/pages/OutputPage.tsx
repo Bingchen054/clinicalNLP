@@ -36,23 +36,32 @@ const OutputPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
-
-  const stateData = location.state as any;
-
-  const storedData = localStorage.getItem("cdos_analysis_result");
-
-  let data = null;
-
-  if (stateData) {
-    data = stateData?.analysis ? stateData.analysis : stateData;
-  } else if (storedData) {
-    const parsed = JSON.parse(storedData);
-    data = parsed?.analysis ? parsed.analysis : parsed;
-  }
+  const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    console.log("OutputPage received data:", stateData);
-  }, [stateData]);
+    const stateData = location.state as any;
+
+    if (stateData) {
+      const normalized =
+        stateData?.analysis ? stateData.analysis : stateData;
+
+      setData(normalized);
+
+      // 同时存入 localStorage，保证刷新可用
+      localStorage.setItem(
+        "cdos_analysis_result",
+        JSON.stringify(stateData)
+      );
+    } else {
+      const stored = localStorage.getItem("cdos_analysis_result");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        const normalized =
+          parsed?.analysis ? parsed.analysis : parsed;
+        setData(normalized);
+      }
+    }
+  }, [location.state]);
 
   if (!data) {
     return (
@@ -186,7 +195,6 @@ const OutputPage = () => {
                   <h2 className="text-sm font-semibold uppercase tracking-wide">
                     Revised Doctor Notes
                   </h2>
-
                 </div>
 
                 <div className="rounded-md border bg-background p-5 text-sm whitespace-pre-line min-h-[400px]">
@@ -223,7 +231,6 @@ const OutputPage = () => {
                             </p>
                             <div className="mt-1.5 flex items-center gap-2">
                               <StatusBadge status={row.status} />
-
                             </div>
                           </div>
                         </button>
